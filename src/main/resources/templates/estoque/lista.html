@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Estoque</title>
+</head>
+<body>
+    <h1>Estoque</h1>
+    <a sec:authorize="hasRole('ADMIN')" th:href="@{/estoque/novo}">Novo Item</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th sec:authorize="hasRole('ADMIN')">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${itens}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.nome}"></td>
+            <td th:text="${item.descricao}"></td>
+            <td th:text="${item.quantidade}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/estoque/{id}/editar(id=${item.id})}">Editar</a>
+                <a th:href="@{/estoque/{id}/remover(id=${item.id})}">Remover</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout"/>
+    </form>
+</body>
+</html>
